@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: Bank Application
+  datasource:
+    url: JDBC:postgresql://localhost:5432/banking_system
+    username: 'sanskrutibhise'
+    password: your_password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
