@@ -26,7 +26,7 @@ public class Account {
     @Column(unique = true, nullable = false,length=20)
     private String accountNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false) // customer is required for account
     @JoinColumn(name = "customer_id",nullable = false)
     @JsonIgnore
     private Customer customer;
@@ -85,8 +85,5 @@ public class Account {
     void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
-
-
-
 
 }

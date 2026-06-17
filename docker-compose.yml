@@ -1,0 +1,36 @@
+services:
+  # Container 1: Your Java Spring Boot Backend (WAS MISSING!)
+#  backend-api:
+#    container_name: banking_backend_container
+#    ports:
+#      - "8080:8080"
+#    env_file:
+#      - .env
+#    depends_on:
+#      - database
+#    environment:
+#      - DB_URL=jdbc:postgresql://database:5432/banking_system
+
+  # Container 2: Your PostgreSQL Database
+  database:
+    image: postgres:18
+    container_name: postgres_db_container
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=banking_system
+      - POSTGRES_USER=${DB_username}
+      - POSTGRES_PASSWORD=${DB_password}
+
+  # Container 3: Your Database UI
+  database-ui:
+    image: adminer:latest
+    container_name: lightweight_ui
+    ports:
+        - "8082:8080"
+    depends_on:
+      - database
+
+
