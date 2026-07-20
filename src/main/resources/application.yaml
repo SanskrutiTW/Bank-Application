@@ -10,9 +10,22 @@ spring:
     username: ${DB_username}
     password: ${DB_password}
     driver-class-name: org.postgresql.Driver
+
+  # Flyway Migration Configuration
+  flyway:
+    enabled: true
+
+  # JPA/Hibernate Configuration
   jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
       hibernate:
-        ddl-auto: update
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # Disable Spring's default SQL script initialization so Flyway handles everything
+  sql:
+    init:
+      mode: never

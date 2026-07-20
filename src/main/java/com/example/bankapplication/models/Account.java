@@ -54,9 +54,19 @@ public class Account {
     @Column(nullable=false,length = 100)
     private String branch;
 
-    @Column(updatable = false,nullable = false)
+    // 1. Handled by Database DEFAULT on initial insert ONLY. Never touched again.
+    @org.hibernate.annotations.Generated
+    @Column(name = "created_at", updatable = false, nullable = false, insertable = false)
     private LocalDateTime createdAt;
+
+    // 2. Automatically updated by Hibernate EVERY time an update query runs.
+    @org.hibernate.annotations.UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    // 3. Handled by Database DEFAULT on initial insert ONLY. Never touched again.
+    @org.hibernate.annotations.Generated
+    @Column(name = "account_opened_at", updatable = false, nullable = false, insertable = false)
     private LocalDateTime accountOpenedAt;
 
     public Account(AccountRequestDTO accountRequestDTO,Customer customer) {
@@ -67,23 +77,6 @@ public class Account {
         this.ifscCode = accountRequestDTO.ifscCode();
         this.branch = accountRequestDTO.branch();
         this.balance = (accountRequestDTO.balance() != null) ? accountRequestDTO.balance() : BigDecimal.ZERO;
-    }
-
-    @PrePersist
-    void prePersist() {
-        LocalDateTime now = LocalDateTime.now();
-        this.createdAt = now;
-        this.updatedAt = now;
-        if (this.accountOpenedAt == null) this.accountOpenedAt = now;
-        if (this.accountUuid == null) this.accountUuid = UUID.randomUUID();
-        if (this.minimumBalance == null && this.accountType != null) {
-            this.minimumBalance = this.accountType.getMinBalance();
-        }
-    }
-
-    @PreUpdate
-    void preUpdate() {
-        this.updatedAt = LocalDateTime.now();
     }
 
 }

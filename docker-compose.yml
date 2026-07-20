@@ -23,6 +23,10 @@ services:
       - POSTGRES_DB=banking_system
       - POSTGRES_USER=${DB_username}
       - POSTGRES_PASSWORD=${DB_password}
+    volumes:
+      # This binds a folder named 'postgres_data' inside your current project directory
+      - ./postgres_data:/var/lib/postgresql/
+#      - ./import.sql:/docker-entrypoint-initdb.d/import.sql
 
   # Container 3: Your Database UI
   database-ui:

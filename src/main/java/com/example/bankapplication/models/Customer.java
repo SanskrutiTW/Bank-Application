@@ -3,7 +3,6 @@ package com.example.bankapplication.models;
 import com.example.bankapplication.models.dto.CustomerRequestDTO;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.*;
 
 @Entity
@@ -18,7 +17,7 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique=true,updatable=false, nullable=false)
+    @Column(unique=true)
     private UUID customerUuid;
 
     @Column(nullable = false, length = 100)
@@ -46,13 +45,6 @@ public class Customer {
         account.setCustomer(this);
     }
 
-    // Lifecycle Hook: Ensure UUID is generated before saving
-    @PrePersist
-    protected void onCreate() {
-        if (this.customerUuid == null) {
-            this.customerUuid = UUID.randomUUID();
-        }
-    }
     public Customer(CustomerRequestDTO dto) {
         this.firstName = dto.firstName();
         this.lastName = dto.lastName();
